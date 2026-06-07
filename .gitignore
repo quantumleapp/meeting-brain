@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+.pytest_cache/
+
+# 로컬 도구/OS 상태 (커밋 불필요)
+.omc/
+.DS_Store
+*.log
+.idea/
+.vscode/

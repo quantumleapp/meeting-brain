@@ -1,0 +1,385 @@
+/* =====================================================================
+   회의록 브레인 — 테마 & 앱 스타일
+   Cal.com 디자인 시스템의 토큰/컴포넌트를 그대로 쓰되,
+   다크 제품 표면에 맞게 color 토큰을 재매핑한다.
+   라이트(Cal.com 정석)는 [data-mb-theme="light"] 로 토글.
+   ===================================================================== */
+
+/* ---- Pretendard (업로드된 한글 폰트) ---- */
+@font-face { font-family: "Pretendard"; font-weight: 300; font-display: swap; src: url("../fonts/Pretendard-Light.ttf") format("truetype"); }
+@font-face { font-family: "Pretendard"; font-weight: 400; font-display: swap; src: url("../fonts/Pretendard-Regular.ttf") format("truetype"); }
+@font-face { font-family: "Pretendard"; font-weight: 500; font-display: swap; src: url("../fonts/Pretendard-Medium.ttf") format("truetype"); }
+@font-face { font-family: "Pretendard"; font-weight: 600; font-display: swap; src: url("../fonts/Pretendard-SemiBold.ttf") format("truetype"); }
+@font-face { font-family: "Pretendard"; font-weight: 700; font-display: swap; src: url("../fonts/Pretendard-Bold.ttf") format("truetype"); }
+@font-face { font-family: "Pretendard"; font-weight: 800; font-display: swap; src: url("../fonts/Pretendard-ExtraBold.ttf") format("truetype"); }
+@font-face { font-family: "Pretendard"; font-weight: 900; font-display: swap; src: url("../fonts/Pretendard-Black.ttf") format("truetype"); }
+
+/* ---- Pretendard 를 디스플레이/본문 양쪽에 매핑 ---- */
+:root {
+  --font-display: "Pretendard", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans: "Pretendard", -apple-system, BlinkMacSystemFont, sans-serif;
+  /* 브리프 포인트 컬러 */
+  --mb-blue: #5b8cff;
+  --mb-blue-soft: rgba(91, 140, 255, 0.14);
+  --mb-blue-line: rgba(91, 140, 255, 0.32);
+  --mb-green: #34d399;
+  --mb-green-soft: rgba(52, 211, 153, 0.14);
+  --mb-amber: #f5b34a;
+  --mb-amber-soft: rgba(245, 179, 74, 0.13);
+  --mb-amber-line: rgba(245, 179, 74, 0.34);
+  /* 액션 상태색 */
+  --mb-status-planned: #6b7280;
+  --mb-status-progress: var(--mb-blue);
+  --mb-status-done: var(--mb-green);
+}
+
+/* =====================================================================
+   다크 테마 — Cal 토큰 재매핑 (기본값)
+   ===================================================================== */
+[data-mb-theme="dark"] {
+  --cal-primary: #fafafa;            /* 다크 위 화이트 CTA (Cal invert 정신) */
+  --cal-primary-active: #e3e3e6;
+  --cal-primary-disabled: #2a2a30;
+  --cal-on-primary: #111114;
+  --cal-brand-accent: var(--mb-blue);
+
+  --cal-ink: #f4f4f6;
+  --cal-body: #c4c6cf;
+  --cal-muted: #8b8e98;
+  --cal-muted-soft: #62656e;
+  --cal-on-primary: #111114;
+  --cal-on-dark: #f4f4f6;
+  --cal-on-dark-soft: #8b8e98;
+
+  --cal-canvas: #18181c;             /* 인풋/세컨더리 버튼/활성 pill 표면 */
+  --cal-surface-soft: #131316;       /* pill 트랙, soft */
+  --cal-surface-card: #1a1a1f;       /* feature 카드 */
+  --cal-surface-strong: #2c2c33;     /* switch off, disabled */
+  --cal-surface-dark: #0b0b0d;       /* 사이드바/가장 어두운 표면 */
+  --cal-surface-dark-elevated: #1f1f25;
+
+  --cal-hairline: rgba(255,255,255,0.085);
+  --cal-hairline-soft: rgba(255,255,255,0.05);
+
+  --cal-success: var(--mb-green);
+  --cal-warning: var(--mb-amber);
+  --cal-error: #f87171;
+
+  --mb-page: #0e0e11;                /* 본문 바닥 */
+  --mb-elev: #1a1a1f;                /* 패널/카드 */
+  --mb-elev-2: #212128;              /* 카드 위 카드 */
+  --mb-inset: #131317;               /* 인셋(코드블록 등) */
+  --mb-sidebar: #0b0b0d;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.4);
+  --shadow-md: 0 8px 28px rgba(0,0,0,0.5);
+}
+
+/* =====================================================================
+   라이트 테마 — Cal.com 정석 (토글)  (토큰은 colors.css 기본값 그대로)
+   ===================================================================== */
+[data-mb-theme="light"] {
+  --mb-page: #ffffff;
+  --mb-elev: #ffffff;
+  --mb-elev-2: #ffffff;
+  --mb-inset: #f8f9fa;
+  --mb-sidebar: #0b0b0d; /* 라이트에서도 사이드바는 다크 (Cal 풋터 정신) */
+  --mb-blue-soft: rgba(59, 130, 246, 0.10);
+  --mb-blue-line: rgba(59, 130, 246, 0.28);
+  --mb-blue: #3b82f6;
+  --mb-status-progress: #3b82f6;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* =====================================================================
+   기본 / 글로벌
+   ===================================================================== */
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; height: 100%; }
+body {
+  background: var(--mb-page);
+  color: var(--cal-body);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+#root { height: 100%; }
+.mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: var(--cal-surface-strong); border-radius: 999px; border: 2px solid transparent; background-clip: padding-box; }
+::-webkit-scrollbar-thumb:hover { background: var(--cal-muted-soft); background-clip: padding-box; }
+
+/* 디스플레이 헤딩 — Pretendard 헤비 + 타이트 트래킹 (Cal Sans 느낌) */
+.mb-display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--cal-ink);
+  line-height: 1.1;
+  margin: 0;
+}
+.mb-h1 { font-size: 30px; }
+.mb-h2 { font-size: 22px; }
+.mb-title { font-family: var(--font-sans); font-weight: 700; color: var(--cal-ink); letter-spacing: -0.01em; margin: 0; }
+
+/* =====================================================================
+   레이아웃 셸
+   ===================================================================== */
+.mb-app { display: flex; height: 100%; overflow: hidden; }
+
+/* ---- 사이드바 ---- */
+.mb-sidebar {
+  width: 244px; flex-shrink: 0;
+  background: var(--mb-sidebar);
+  border-right: 1px solid rgba(255,255,255,0.07);
+  display: flex; flex-direction: column;
+  padding: 20px 14px;
+  gap: 6px;
+  z-index: 20;
+}
+.mb-brand { display: flex; align-items: center; gap: 10px; padding: 6px 8px 16px; }
+.mb-brand-mark {
+  width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0;
+  background: linear-gradient(150deg, #2b2b33, #16161a);
+  border: 1px solid rgba(255,255,255,0.12);
+  display: grid; place-items: center;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+}
+.mb-brand-name { font-family: var(--font-display); font-weight: 800; font-size: 15.5px; color: #f4f4f6; letter-spacing: -0.02em; line-height: 1.1; }
+.mb-brand-sub { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.18em; color: #6b6e78; margin-top: 2px; }
+
+.mb-nav { display: flex; flex-direction: column; gap: 3px; margin-top: 4px; }
+.mb-nav-label { font-size: 10.5px; font-weight: 600; letter-spacing: 0.14em; color: #5a5d66; padding: 10px 10px 6px; }
+.mb-nav-item {
+  display: flex; align-items: center; gap: 11px;
+  padding: 9px 10px; border-radius: 9px;
+  color: #9a9da6; font-size: 14px; font-weight: 500;
+  cursor: pointer; border: none; background: transparent; width: 100%; text-align: left;
+  position: relative; transition: background var(--dur-fast) var(--ease-standard), color var(--dur-fast) var(--ease-standard);
+}
+.mb-nav-item:hover { background: rgba(255,255,255,0.04); color: #d4d6dd; }
+.mb-nav-item.active { background: var(--mb-blue-soft); color: #cdddff; }
+.mb-nav-item.active::before {
+  content: ""; position: absolute; left: -14px; top: 8px; bottom: 8px; width: 3px;
+  background: var(--mb-blue); border-radius: 0 3px 3px 0;
+}
+.mb-nav-item svg { width: 18px; height: 18px; flex-shrink: 0; }
+.mb-nav-item .mb-nav-count { margin-left: auto; font-family: var(--font-mono); font-size: 11px; color: #6b6e78; }
+.mb-nav-item.active .mb-nav-count { color: var(--mb-blue); }
+
+.mb-sidebar-foot { margin-top: auto; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.07); display: flex; flex-direction: column; gap: 10px; }
+.mb-board-chip { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #8b8e98; }
+.mb-board-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--mb-green); box-shadow: 0 0 0 3px var(--mb-green-soft); }
+
+/* ---- 메인 ---- */
+.mb-main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+.mb-topbar {
+  display: flex; align-items: center; gap: 16px;
+  padding: 18px 32px; border-bottom: 1px solid var(--cal-hairline);
+  background: color-mix(in srgb, var(--mb-page) 86%, transparent);
+  backdrop-filter: blur(8px);
+  position: sticky; top: 0; z-index: 10; flex-shrink: 0;
+}
+.mb-topbar-meta { margin-left: auto; display: flex; align-items: center; gap: 18px; }
+.mb-topbar-stat { display: flex; flex-direction: column; align-items: flex-end; }
+.mb-topbar-stat b { font-family: var(--font-mono); font-size: 15px; font-weight: 600; color: var(--cal-ink); }
+.mb-topbar-stat span { font-size: 11px; color: var(--cal-muted); }
+.mb-scroll { flex: 1; overflow-y: auto; }
+.mb-page-pad { max-width: 1120px; margin: 0 auto; padding: 30px 32px 80px; }
+
+/* =====================================================================
+   공통 조각
+   ===================================================================== */
+.mb-panel {
+  background: var(--mb-elev);
+  border: 1px solid var(--cal-hairline);
+  border-radius: var(--radius-lg);
+}
+.mb-panel-pad { padding: 22px; }
+.mb-section-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; color: var(--cal-muted); text-transform: uppercase; }
+
+.mb-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 11px; border-radius: 999px; font-size: 12.5px; font-weight: 500;
+  background: var(--cal-surface-card); color: var(--cal-body);
+  border: 1px solid var(--cal-hairline);
+}
+.mb-chip.click { cursor: pointer; transition: border-color var(--dur-fast), background var(--dur-fast); }
+.mb-chip.click:hover { border-color: var(--mb-blue-line); background: var(--mb-blue-soft); color: var(--cal-ink); }
+.mb-chip .mb-chip-date { font-family: var(--font-mono); font-size: 11px; color: var(--cal-muted); }
+
+/* 상태 도트/배지 */
+.mb-status { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; }
+.mb-status .dot { width: 8px; height: 8px; border-radius: 50%; }
+
+/* 진행률 바 */
+.mb-bar-track { height: 7px; border-radius: 999px; background: var(--cal-surface-strong); overflow: hidden; }
+.mb-bar-fill { height: 100%; border-radius: 999px; transition: width 480ms var(--ease-standard); }
+
+/* 교차점검 콜아웃 (RAG 시그니처) */
+.mb-crosscheck {
+  border: 1px solid var(--mb-amber-line);
+  background: var(--mb-amber-soft);
+  border-radius: var(--radius-lg);
+  padding: 16px 18px;
+  display: flex; gap: 13px;
+}
+.mb-crosscheck-icon { color: var(--mb-amber); flex-shrink: 0; margin-top: 1px; }
+.mb-crosscheck-title { font-weight: 700; color: var(--cal-ink); font-size: 14px; margin: 0 0 5px; display: flex; align-items: center; gap: 8px; }
+
+/* 코드/원문 인셋 */
+.mb-inset { background: var(--mb-inset); border: 1px solid var(--cal-hairline); border-radius: var(--radius-md); }
+
+/* 토스트 */
+.mb-toast {
+  position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%) translateY(20px);
+  background: #fafafa; color: #111114; font-weight: 600; font-size: 14px;
+  padding: 12px 18px; border-radius: 10px; box-shadow: 0 12px 40px rgba(0,0,0,0.55);
+  display: flex; align-items: center; gap: 9px; z-index: 200; opacity: 0;
+  pointer-events: none; transition: opacity 220ms var(--ease-standard), transform 220ms var(--ease-standard);
+}
+.mb-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* 텍스트에어리어 */
+.mb-textarea {
+  width: 100%; resize: vertical; min-height: 240px;
+  background: var(--cal-canvas); color: var(--cal-ink);
+  border: 1px solid var(--cal-hairline); border-radius: var(--radius-md);
+  padding: 14px 16px; font-family: var(--font-sans); font-size: 14px; line-height: 1.65;
+  outline: none; transition: border-color var(--dur-fast);
+}
+.mb-textarea:focus { border-color: var(--cal-ink); box-shadow: 0 0 0 3px rgba(255,255,255,0.04); }
+.mb-textarea::placeholder { color: var(--cal-muted-soft); }
+
+/* 스피너 */
+.mb-spin { width: 15px; height: 15px; border-radius: 50%; border: 2px solid currentColor; border-top-color: transparent; animation: mb-spin 0.7s linear infinite; display: inline-block; }
+@keyframes mb-spin { to { transform: rotate(360deg); } }
+
+/* 진입 애니메이션 */
+@keyframes mb-rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.mb-rise { animation: mb-rise 360ms var(--ease-standard) both; }
+
+/* 강조 하이라이트 (RAG 답변) */
+.mb-hl { background: var(--mb-blue-soft); color: var(--cal-ink); font-weight: 600; border-radius: 4px; padding: 1px 5px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+
+/* =====================================================================
+   간트
+   ===================================================================== */
+.mb-gantt { width: 100%; }
+.mb-gantt-head { display: flex; align-items: stretch; border-bottom: 1px solid var(--cal-hairline); }
+.mb-gantt-rowlabel-w { width: 168px; flex-shrink: 0; position: sticky; left: 0; z-index: 7; background: var(--mb-elev); }
+.mb-gantt-track-area { position: relative; flex: 1; min-width: 0; }
+.mb-gantt-axis { position: relative; height: 46px; }
+.mb-gantt-tick-month { position: absolute; top: 5px; font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: var(--cal-body); padding-left: 6px; border-left: 1px solid var(--cal-hairline); line-height: 1.2; white-space: nowrap; }
+.mb-gantt-tick-week { position: absolute; top: 27px; transform: translateX(-50%); font-family: var(--font-mono); font-size: 9px; color: var(--cal-muted-soft); white-space: nowrap; }
+.mb-gantt-row { display: flex; align-items: center; min-height: 46px; border-bottom: 1px solid var(--cal-hairline-soft); }
+.mb-gantt-row:last-child { border-bottom: none; }
+.mb-gantt-rowlabel { width: 168px; flex-shrink: 0; display: flex; align-items: center; gap: 9px; padding-right: 12px; position: sticky; left: 0; z-index: 7; background: var(--mb-elev); border-right: 1px solid var(--cal-hairline-soft); }
+.mb-gantt-rowlabel .nm { font-size: 13px; font-weight: 600; color: var(--cal-ink); }
+.mb-gantt-lanes { position: relative; flex: 1; min-width: 0; height: 100%; }
+.mb-gantt-grid { position: absolute; inset: 0; pointer-events: none; }
+.mb-gantt-grid span { position: absolute; top: 0; bottom: 0; border-left: 1px dashed var(--cal-hairline-soft); }
+.mb-gantt-grid span.m { border-left: 1px solid var(--cal-hairline); }
+.mb-gantt-today { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--mb-blue); z-index: 4; }
+.mb-gantt-today::after { content: "오늘"; position: absolute; top: -22px; left: 50%; transform: translateX(-50%); font-family: var(--font-mono); font-size: 10px; color: var(--mb-blue); white-space: nowrap; }
+.mb-gantt-bar {
+  position: absolute; top: 50%; transform: translateY(-50%); height: 26px;
+  border-radius: 7px; display: flex; align-items: center; padding: 0 10px;
+  font-size: 11.5px; font-weight: 600; color: #fff; cursor: pointer; white-space: nowrap; overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.12);
+  transition: filter var(--dur-fast), box-shadow var(--dur-fast), transform var(--dur-fast);
+}
+.mb-gantt-bar:hover { filter: brightness(1.08); box-shadow: 0 4px 14px rgba(0,0,0,0.4); z-index: 6; }
+.mb-gantt-bar:active { transform: translateY(-50%) scale(0.985); }
+
+/* 막대차트 (대시보드) */
+.mb-bars { display: flex; align-items: flex-end; gap: 18px; height: 220px; padding-top: 10px; }
+.mb-bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 9px; height: 100%; justify-content: flex-end; }
+.mb-bar-val { font-family: var(--font-mono); font-size: 14px; font-weight: 600; color: var(--cal-ink); }
+.mb-bar-rect { width: 100%; max-width: 64px; border-radius: 8px 8px 3px 3px; background: linear-gradient(180deg, var(--mb-blue), color-mix(in srgb, var(--mb-blue) 55%, transparent)); transition: height 600ms var(--ease-standard); }
+.mb-bar-year { font-family: var(--font-mono); font-size: 12px; color: var(--cal-muted); }
+
+/* 파이프라인 플로우 */
+.mb-flow { display: flex; align-items: stretch; gap: 0; flex-wrap: wrap; }
+.mb-flow-node { flex: 1; min-width: 130px; background: var(--mb-inset); border: 1px solid var(--cal-hairline); border-radius: var(--radius-md); padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+.mb-flow-node .ic { width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; background: var(--mb-blue-soft); color: var(--mb-blue); }
+.mb-flow-arrow { display: grid; place-items: center; color: var(--cal-muted-soft); padding: 0 4px; flex-shrink: 0; }
+
+/* 예시 질문 칩 영역 */
+.mb-qchips { display: flex; flex-wrap: wrap; gap: 8px; }
+.mb-qchips .mb-chip.click { cursor: pointer; }
+
+/* =====================================================================
+   화면 ② RAG 검색
+   ===================================================================== */
+.mb-search-box {
+  background: var(--mb-elev); border: 1px solid var(--cal-hairline);
+  border-radius: var(--radius-lg); padding: 16px; box-shadow: var(--shadow-sm);
+}
+.mb-search-row { display: flex; align-items: center; gap: 11px; }
+.mb-search-input {
+  flex: 1; min-width: 0; border: none; outline: none; background: transparent;
+  font-family: var(--font-sans); font-size: 16px; color: var(--cal-ink);
+  padding: 8px 0; line-height: 1.4;
+}
+.mb-search-input::placeholder { color: var(--cal-muted-soft); }
+.mb-answer-mark {
+  width: 28px; height: 28px; border-radius: 8px; flex-shrink: 0;
+  display: grid; place-items: center;
+  background: var(--mb-blue-soft); color: var(--mb-blue);
+}
+
+/* =====================================================================
+   화면 ③ 액션 보드
+   ===================================================================== */
+.mb-gantt-scroll { overflow-x: auto; padding: 14px 22px 22px; scrollbar-width: thin; }
+.mb-gantt-scroll::-webkit-scrollbar { height: 10px; }
+.mb-gantt-scroll::-webkit-scrollbar-track { background: transparent; }
+.mb-gantt-scroll::-webkit-scrollbar-thumb { background: var(--cal-hairline); border-radius: 6px; border: 2px solid transparent; background-clip: padding-box; }
+.mb-gantt-scroll::-webkit-scrollbar-thumb:hover { background: var(--cal-muted-soft); background-clip: padding-box; }
+.mb-action-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; }
+.mb-status-toggle {
+  display: inline-flex; align-items: center; gap: 8px; flex-shrink: 0;
+  background: var(--cal-surface-card); border: 1px solid var(--cal-hairline);
+  border-radius: 999px; padding: 5px 10px 5px 12px; cursor: pointer;
+  transition: border-color var(--dur-fast), background var(--dur-fast);
+}
+.mb-status-toggle:hover { border-color: var(--mb-blue-line); background: var(--mb-blue-soft); }
+
+/* =====================================================================
+   화면 ④ 대시보드 스탯
+   ===================================================================== */
+.mb-stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.mb-stat-card { padding: 18px; display: flex; flex-direction: column; gap: 7px; }
+.mb-stat-ic { width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; margin-bottom: 4px; }
+
+/* 모바일 네비 스크림 */
+.mb-nav-scrim { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 19; }
+
+/* 반응형 */
+@media (max-width: 1040px) {
+  .mb-stat-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 860px) {
+  .mb-sidebar { position: fixed; left: 0; top: 0; bottom: 0; transform: translateX(-100%); transition: transform 240ms var(--ease-standard); }
+  .mb-sidebar.open { transform: none; }
+  .mb-nav-scrim { display: block; }
+  .mb-page-pad { padding: 22px 18px 120px; }
+  .mb-topbar { padding: 14px 18px; }
+  .mb-topbar-meta { display: none; }
+  .mb-two-col { grid-template-columns: 1fr !important; }
+  .mb-gantt-rowlabel-w, .mb-gantt-rowlabel { width: 120px; }
+  /* 검색: 버튼을 하단 풀폭 + 큰 터치 타깃 */
+  .mb-search-row { flex-wrap: wrap; }
+  .mb-search-input { flex-basis: 100%; order: -1; font-size: 16px; }
+  .mb-search-row > svg { display: none; }
+  .mb-search-row > a, .mb-search-row > button { width: 100% !important; min-height: 48px; justify-content: center; }
+}
+@media (min-width: 861px) {
+  .mb-nav-scrim { display: none; }
+}
+.mb-menu-btn { display: none; }
+@media (max-width: 860px) {
+  .mb-menu-btn { display: inline-flex; }
+}
