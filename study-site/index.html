@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>회의록 브레인 · 복습 가이드</title>
+<style>
+  :root{
+    --page:#0e0e11; --panel:#1a1a1f; --inset:#131317;
+    --ink:#f4f4f6; --body:#c4c6cf; --muted:#8b8e98;
+    --blue:#5b8cff; --green:#34d399; --amber:#f5b34a;
+    --line:rgba(255,255,255,.08); --line-soft:rgba(255,255,255,.05);
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard",sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{background:var(--page);color:var(--body);font-family:var(--sans);-webkit-font-smoothing:antialiased;line-height:1.65}
+  a{color:var(--blue);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{display:flex;min-height:100vh}
+
+  /* 사이드바 */
+  .sb{width:268px;flex-shrink:0;background:#0b0b0d;border-right:1px solid var(--line);
+      padding:22px 14px;position:sticky;top:0;height:100vh;overflow-y:auto}
+  .brand{display:flex;align-items:center;gap:10px;padding:4px 8px 16px}
+  .brand .mk{width:30px;height:30px;border-radius:8px;background:linear-gradient(150deg,#2b2b33,#16161a);
+      border:1px solid rgba(255,255,255,.12);display:grid;place-items:center;color:var(--blue);font-size:15px}
+  .brand b{font-size:14.5px;color:var(--ink);font-weight:800;letter-spacing:-.02em;line-height:1.15}
+  .brand .sub{font-family:var(--mono);font-size:9px;letter-spacing:.16em;color:#6b6e78;margin-top:2px}
+  .nav{display:flex;flex-direction:column;gap:2px;margin-top:4px}
+  .nav a{display:block;padding:8px 11px;border-radius:8px;color:#9a9da6;font-size:13.5px;font-weight:500}
+  .nav a:hover{background:rgba(255,255,255,.04);color:#d4d6dd;text-decoration:none}
+  .nav a.active{background:rgba(91,140,255,.14);color:#cdddff}
+  .nav .sep{height:1px;background:var(--line-soft);margin:8px 6px}
+  .sb .foot{margin-top:18px;padding:12px 8px 0;border-top:1px solid var(--line-soft);font-size:11.5px;color:var(--muted)}
+  .sb .foot a{font-family:var(--mono);font-size:11px}
+
+  /* 본문 */
+  .main{flex:1;min-width:0;display:flex;justify-content:center}
+  .doc{width:100%;max-width:820px;padding:46px 40px 120px}
+  .topbar{display:none}
+
+  /* 마크다운 타이포 */
+  .doc h1{font-size:30px;font-weight:800;letter-spacing:-.03em;color:var(--ink);line-height:1.18;margin:.2em 0 .5em}
+  .doc h2{font-size:20px;font-weight:700;color:var(--ink);margin:1.7em 0 .6em;padding-top:.4em;border-top:1px solid var(--line-soft)}
+  .doc h3{font-size:15.5px;font-weight:700;color:var(--ink);margin:1.3em 0 .4em}
+  .doc p{margin:.6em 0}
+  .doc strong{color:var(--ink)}
+  .doc ul,.doc ol{padding-left:1.3em;margin:.5em 0}
+  .doc li{margin:.28em 0}
+  .doc code{font-family:var(--mono);font-size:.86em;background:var(--inset);border:1px solid var(--line-soft);
+      padding:1px 5px;border-radius:5px;color:#e3e6ee}
+  .doc pre{background:var(--inset);border:1px solid var(--line);border-radius:10px;padding:14px 16px;
+      overflow-x:auto;margin:.9em 0}
+  .doc pre code{background:none;border:none;padding:0;font-size:12.5px;line-height:1.6;color:#d6dae4}
+  .doc blockquote{margin:.9em 0;padding:.1em 1em;border-left:3px solid var(--blue);
+      background:rgba(91,140,255,.06);border-radius:0 8px 8px 0;color:var(--body)}
+  .doc table{border-collapse:collapse;width:100%;margin:1em 0;font-size:13.5px;display:block;overflow-x:auto}
+  .doc th,.doc td{border:1px solid var(--line);padding:8px 11px;text-align:left;vertical-align:top}
+  .doc th{background:var(--panel);color:var(--ink);font-weight:600;white-space:nowrap}
+  .doc hr{border:none;border-top:1px solid var(--line);margin:1.6em 0}
+  .doc a{border-bottom:1px solid transparent}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--line)}
+  .pager a{flex:1;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 16px;color:var(--body)}
+  .pager a:hover{border-color:rgba(91,140,255,.4);text-decoration:none}
+  .pager .nxt{text-align:right}
+  .pager .lbl{display:block;font-size:11px;color:var(--muted);font-family:var(--mono)}
+  .pager .ttl{color:var(--ink);font-weight:600;font-size:13.5px}
+
+  /* 모바일 */
+  .scrim{display:none}
+  .menu{display:none}
+  @media (max-width:880px){
+    .sb{position:fixed;left:0;top:0;z-index:30;transform:translateX(-100%);transition:transform .22s ease}
+    .sb.open{transform:none}
+    .scrim{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:25}
+    .scrim.show{display:block}
+    .topbar{display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:20;
+        background:rgba(14,14,17,.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:12px 16px}
+    .menu{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:9px;
+        background:var(--panel);border:1px solid var(--line);color:var(--ink);cursor:pointer;font-size:17px}
+    .topbar b{font-size:14px;color:var(--ink)}
+    .doc{padding:24px 18px 110px}
+    .doc h1{font-size:25px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <aside class="sb" id="sb">
+    <div class="brand">
+      <span class="mk">▤</span>
+      <span><b>회의록 브레인</b><span class="sub">복습 가이드</span></span>
+    </div>
+    <nav class="nav" id="nav"></nav>
+    <div class="foot">
+      라이브 데모<br><a href="https://sh.chris-cloud.com" target="_blank">sh.chris-cloud.com</a><br><br>
+      코드<br><a href="https://github.com/quantumleapp/meeting-brain" target="_blank">github.com/quantumleapp/meeting-brain</a>
+    </div>
+  </aside>
+  <div class="scrim" id="scrim"></div>
+  <div class="main">
+    <div style="width:100%;max-width:820px">
+      <div class="topbar"><button class="menu" id="menu">☰</button><b>복습 가이드</b></div>
+      <article class="doc" id="doc">불러오는 중…</article>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+<script>
+  const PAGES = [
+    ["README","📖 시작 · 목차"],
+    ["00-orientation","00 · 오리엔테이션"],
+    ["01-ai-extract-embedding","01 · AI 정리 + 임베딩"],
+    ["02-rag-search-answer","02 · RAG 검색 & 답변"],
+    ["03-crosscheck","03 · 교차점검 ⚠️"],
+    ["04-stt-clova-speech","04 · 음성 STT"],
+    ["05-frontend-gantt","05 · 프론트 & 간트"],
+    ["06-docker-local","06 · Docker & 로컬"],
+    ["07-ncloud-deploy","07 · Ncloud 배포"],
+    ["08-https-caddy","08 · HTTPS & 도메인"],
+    ["09-git-github","09 · Git & GitHub"],
+    ["10-presentation","10 · 발표 자료화"],
+    ["99-appendix","99 · 부록"],
+  ];
+  const nav = document.getElementById("nav");
+  const doc = document.getElementById("doc");
+  const sb = document.getElementById("sb");
+  const scrim = document.getElementById("scrim");
+  const idOf = (s) => s.replace(/^#/,"") || "README";
+
+  PAGES.forEach(([id,title],i)=>{
+    if(i===1){const s=document.createElement("div");s.className="sep";nav.appendChild(s);}
+    const a=document.createElement("a");a.href="#"+id;a.textContent=title;a.dataset.id=id;nav.appendChild(a);
+  });
+
+  function closeSb(){sb.classList.remove("open");scrim.classList.remove("show");}
+  document.getElementById("menu").onclick=()=>{sb.classList.add("open");scrim.classList.add("show");};
+  scrim.onclick=closeSb;
+
+  async function load(id){
+    const known = PAGES.some(p=>p[0]===id) ? id : "README";
+    doc.innerHTML="불러오는 중…";
+    try{
+      const res = await fetch(`content/${known}.md`,{cache:"no-cache"});
+      if(!res.ok) throw new Error(res.status);
+      const md = await res.text();
+      doc.innerHTML = marked.parse(md);
+      // .md 링크 → 해시 내비게이션으로 변환
+      doc.querySelectorAll('a[href$=".md"]').forEach(a=>{
+        const t=a.getAttribute("href").replace(/\.md$/,"").replace(/^.*\//,"");
+        a.setAttribute("href","#"+t);
+      });
+      addPager(known);
+    }catch(e){
+      doc.innerHTML="<h1>페이지를 불러오지 못했습니다</h1><p>로컬에서 열 때는 <code>npx serve</code> 같은 정적 서버로 열어주세요. (file:// 직접 열기는 보안상 막힘)</p>";
+    }
+    nav.querySelectorAll("a").forEach(a=>a.classList.toggle("active",a.dataset.id===known));
+    window.scrollTo(0,0); closeSb();
+  }
+  function addPager(id){
+    const i=PAGES.findIndex(p=>p[0]===id);
+    const prev=PAGES[i-1], next=PAGES[i+1];
+    const el=document.createElement("div");el.className="pager";
+    el.innerHTML =
+      (prev?`<a href="#${prev[0]}"><span class="lbl">← 이전</span><span class="ttl">${prev[1]}</span></a>`:`<span style="flex:1"></span>`)+
+      (next?`<a class="nxt" href="#${next[0]}"><span class="lbl">다음 →</span><span class="ttl">${next[1]}</span></a>`:`<span style="flex:1"></span>`);
+    doc.appendChild(el);
+  }
+  window.addEventListener("hashchange",()=>load(idOf(location.hash)));
+  load(idOf(location.hash));
+</script>
+</body>
+</html>
